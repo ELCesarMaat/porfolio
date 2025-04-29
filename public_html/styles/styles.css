@@ -1,0 +1,98 @@
+body {
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    background-color: #0f0f2d;
+    color: #e0e0e0;
+    display: flex;
+  }
+  
+  a {
+    color: #00ffaa;
+    text-decoration: none;
+  }
+  
+  .sidebar {
+    width: 220px;
+    background-color: #1a1a40;
+    padding: 2rem 1rem;
+    position: fixed;
+    height: 100vh;
+  }
+  
+  .sidebar .logo {
+    color: #00ffcc;
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+  }
+  
+  .sidebar nav a {
+    display: block;
+    margin: 1rem 0;
+    color: #ff66cc;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.3s;
+  }
+  
+  .sidebar nav a:hover {
+    color: #00ffaa;
+    transform: scale(1.05);
+  }
+  
+  main {
+    margin-left: 220px;
+    padding: 4rem 2rem;
+    flex: 1;
+  }
+  
+  .hero {
+    text-align: center;
+    margin-top: 4rem;
+  }
+  
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .hero .highlight {
+    color: #ff66cc;
+  }
+  
+  .subtext {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #bbb;
+  }
+  
+  .btn {
+    background-color: #00ffaa;
+    padding: 0.8rem 1.5rem;
+    display: inline-block;
+    color: #000;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    transition: 0.3s;
+  }
+  
+  .btn:hover {
+    background-color: #00ddaa;
+  }
+  
+  .socials {
+    margin-top: 2rem;
+  }
+  
+  .socials a {
+    margin: 0 10px;
+    font-size: 1.8rem;
+    color: #ff66cc;
+    transition: 0.3s;
+  }
+  
+  .socials a:hover {
+    color: #00ffaa;
+  }
+  
