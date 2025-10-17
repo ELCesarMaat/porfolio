@@ -4,71 +4,295 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>César Maat - Portafolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="sidebar" aria-label="Abrir menú">
+    <i class="fas fa-bars" aria-hidden="true"></i>
+    <span>Menú</span>
+  </button>
 
-  <div class="sidebar">
-    <h2 class="logo">SITIO EN CONSTRUCCION</h2>
+  <div class="sidebar" id="sidebar">
+    <h1 class="logo">CÉSAR MAAT</h1>
+    <p class="sidebar-tagline">Backend Developer</p>
     <nav>
+      <a href="#hero">INICIO</a>
       <a href="#about">SOBRE MÍ</a>
       <a href="#portfolio">PORTAFOLIO</a>
       <a href="#skills">TECNOLOGÍAS</a>
       <a href="#contact">CONTACTO</a>
     </nav>
+    <div class="sidebar-socials">
+      <a href="https://linkedin.com/in/cesarmaat" target="_blank" aria-label="LinkedIn de César"><i class="fab fa-linkedin"></i></a>
+      <a href="https://github.com/elcesarmaat" target="_blank" aria-label="GitHub de César"><i class="fab fa-github"></i></a>
+      <a href="mailto:maatcesar@gmail.com" aria-label="Enviar correo a César"><i class="fas fa-envelope"></i></a>
+    </div>
   </div>
 
   <main>
-    <section class="hero">
-      <h1><span class="highlight">CÉSAR</span> MAAT</h1>
-      <p class="subtext">Desarrollador Backend especializado en .NET, APIs REST y bases de datos.</p>
-      <p>¿Quieres contactarme? Escríbeme a <a href="mailto:maatcesar@gmail.com">maatcesar@gmail.com</a></p>
-      <a href="#" class="btn">Descargar mi CV</a>
+    <section class="hero" id="hero">
+      <div class="container hero-layout">
+        <div class="hero-text">
+          <p class="eyebrow">Desarrollo de software confiable</p>
+          <h1>Hola, soy <span class="highlight">César Maat</span></h1>
+          <p class="subtext">Soy desarrollador backend especializado en .NET y Azure. Diseño APIs REST robustas, integro bases de datos escalables y ayudo a equipos a entregar productos de alto impacto.</p>
+          <div class="cta-group">
+            <a href="#" class="btn primary">Descargar CV</a>
+            <a href="#portfolio" class="btn ghost">Ver proyectos</a>
+          </div>
+          <ul class="cred-list">
+            <li><i class="fas fa-check"></i> APIs RESTful con .NET 8 y Entity Framework</li>
+            <li><i class="fas fa-check"></i> Integraciones cloud-first en Azure</li>
+            <li><i class="fas fa-check"></i> Traductor entre negocio y equipo técnico</li>
+          </ul>
+          <div class="socials">
+            <a href="https://linkedin.com/in/cesarmaat" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/elcesarmaat" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="mailto:maatcesar@gmail.com"><i class="fas fa-envelope"></i></a>
+          </div>
+        </div>
+        <div class="hero-media" aria-hidden="true">
+          <div class="hero-avatar">
+            <span class="avatar-initials">CM</span>
+          </div>
+          <div class="hero-badges">
+            <div class="badge-card">
+              <i class="fas fa-database"></i>
+              <p>Diseño de bases de datos</p>
+            </div>
+            <div class="badge-card">
+              <i class="fas fa-cloud"></i>
+              <p>Deploy automatizado</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      <div class="socials">
-        <a href="https://linkedin.com/in/cesarmaat" target="_blank"><i class="fab fa-linkedin"></i></a>
-        <a href="https://github.com/elcesarmaat" target="_blank"><i class="fab fa-github"></i></a>
+    <section id="about" class="section-alt">
+      <div class="container about-layout">
+        <div class="about-text">
+          <h2>Sobre mí</h2>
+          <p>Combino pensamiento analítico y empatía con el negocio para construir soluciones que no solo funcionan, sino que generan valor real. Me gusta trabajar con métodos ágiles, documentar lo esencial y mantener una comunicación clara con los stakeholders.</p>
+          <p>Cuando no estoy programando, me encontrarás aprendiendo nuevas tecnologías, contribuyendo a proyectos personales o compartiendo conocimiento con la comunidad.</p>
+          <div class="tag-list">
+            <span class="tag">.NET 8</span>
+            <span class="tag">Azure Functions</span>
+            <span class="tag">Clean Architecture</span>
+            <span class="tag">SQL Server</span>
+            <span class="tag">CI/CD</span>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="stat-value">+4</span>
+            <span class="stat-label">años creando soluciones backend</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-value">12</span>
+            <span class="stat-label">proyectos productivos</span>
+          </article>
+          <article class="stat-card">
+            <span class="stat-value">99%</span>
+            <span class="stat-label">uptime promedio en APIs</span>
+          </article>
+        </div>
       </div>
     </section>
-    <section id="about">
-      <h2>Sobre mí</h2>
-      <p>Tu descripción personal aquí...</p>
-    </section>
-    
+
     <section id="portfolio">
-      <h2>Portafolio</h2>
-    
-      <div class="project-card">
-        <div class="project-image" style="background-image: url('/images/gastapplogo.png');"></div>
-        <h3>App gastapp</h3>
-        <p>Aplicacion para llevar el control de tus gastos creada en .NET MAUI</p>
-        <a href="https://github.com/elcesarmaat/gastapp" target="_blank">Ver en GitHub</a>
-      </div>
-      
-      <div class="project-card">
-        <div class="project-image" style="background-image: url('ruta/a/tu-imagen2.jpg');"></div>
-        <h3>Proyecto 2</h3>
-        <p>Descripción breve del proyecto.</p>
-        <a href="https://github.com/tuusuario/proyecto2" target="_blank">Ver en GitHub</a>
-      </div>
-      
-    
-        <!-- Puedes seguir copiando esto para más proyectos -->
+      <div class="container">
+        <div class="section-heading">
+          <h2>Portafolio destacado</h2>
+          <p>Una selección de proyectos que muestran mi experiencia construyendo servicios, automatizando procesos y llevando ideas a producción.</p>
+        </div>
+        <div class="portfolio-grid">
+          <article class="project-card">
+            <div class="project-image" style="background-image: url('/images/gastapplogo.png');"></div>
+            <div class="project-content">
+              <h3>Gastapp</h3>
+              <p>Aplicación móvil creada con .NET MAUI para monitorear gastos personales en tiempo real, sincronizada con Azure y autenticación segura.</p>
+              <ul class="project-tags">
+                <li>.NET MAUI</li>
+                <li>SQLite</li>
+                <li>Azure App Service</li>
+              </ul>
+              <div class="project-links">
+                <a href="https://github.com/ELCesarMaat/App-Gastapp.git" target="_blank" rel="noopener">Ver en GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="project-content">
+              <h3>API de gestión financiera</h3>
+              <p>Servicio REST multi-tenant con autenticación JWT, monitoreo en Application Insights y pipelines de despliegue automatizados.</p>
+              <ul class="project-tags">
+                <li>.NET 8</li>
+                <li>EF Core</li>
+                <li>Azure DevOps</li>
+              </ul>
+              <div class="project-links">
+                <a href="https://github.com/elcesarmaat" target="_blank" rel="noopener">Repositorio privado · Solicitar demo</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card">
+            <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=1200&q=80');"></div>
+            <div class="project-content">
+              <h3>Tablero de analítica</h3>
+              <p>Dashboard responsive con visualizaciones en tiempo real, integrando APIs internas y almacenamiento en Azure SQL.</p>
+              <ul class="project-tags">
+                <li>Blazor</li>
+                <li>SignalR</li>
+                <li>Power BI</li>
+              </ul>
+              <div class="project-links">
+                <a href="https://github.com/elcesarmaat" target="_blank" rel="noopener">Ver código base</a>
+              </div>
+            </div>
+          </article>
+        </div>
       </div>
     </section>
-    
-    <section id="skills">
-      <h2>Tecnologías</h2>
-      <p>.NET, C#, SQL, etc...</p>
+
+    <section id="skills" class="section-alt">
+      <div class="container">
+        <div class="section-heading">
+          <h2>Stack principal</h2>
+          <p>Herramientas y tecnologías que utilizo para construir soluciones escalables, seguras y mantenibles.</p>
+        </div>
+        <div class="skills-grid">
+          <article class="skill-card">
+            <h3>Backend</h3>
+            <p>Diseño arquitecturas limpias, documentadas y con pruebas automatizadas.</p>
+            <div class="chip-group">
+              <span class="chip">C#</span>
+              <span class="chip">ASP.NET Core</span>
+              <span class="chip">Entity Framework</span>
+              <span class="chip">CQRS</span>
+            </div>
+          </article>
+          <article class="skill-card">
+            <h3>Cloud & DevOps</h3>
+            <p>Automatizo despliegues y monitoreo para reducir tiempos de entrega.</p>
+            <div class="chip-group">
+              <span class="chip">Azure</span>
+              <span class="chip">Docker</span>
+              <span class="chip">Azure DevOps</span>
+              <span class="chip">GitHub Actions</span>
+            </div>
+          </article>
+          <article class="skill-card">
+            <h3>Datos</h3>
+            <p>Modelado eficiente, consultas optimizadas y procesos ETL confiables.</p>
+            <div class="chip-group">
+              <span class="chip">SQL Server</span>
+              <span class="chip">PostgreSQL</span>
+              <span class="chip">Cosmos DB</span>
+              <span class="chip">Power BI</span>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
-    
+
     <section id="contact">
-      <h2>Contacto</h2>
-      <p>Email: maatcesar@gmail.com</p>
+      <div class="container contact-layout">
+        <div class="section-heading">
+          <h2>Construyamos algo juntos</h2>
+          <p>¿Tienes un proyecto o necesitas reforzar tu equipo backend? Estoy disponible para colaboraciones y nuevas oportunidades.</p>
+        </div>
+        <div class="contact-grid">
+          <article class="contact-card">
+            <i class="fas fa-envelope"></i>
+            <div>
+              <h3>Email</h3>
+              <a href="mailto:maatcesar@gmail.com">maatcesar@gmail.com</a>
+            </div>
+          </article>
+          <article class="contact-card">
+            <i class="fab fa-linkedin"></i>
+            <div>
+              <h3>LinkedIn</h3>
+              <a href="https://linkedin.com/in/cesarmaat" target="_blank" rel="noopener">Conectar</a>
+            </div>
+          </article>
+          <article class="contact-card">
+            <i class="fab fa-github"></i>
+            <div>
+              <h3>GitHub</h3>
+              <a href="https://github.com/elcesarmaat" target="_blank" rel="noopener">Explorar repos</a>
+            </div>
+          </article>
+        </div>
+      </div>
     </section>
-    
   </main>
 
+  <footer class="site-footer">
+    <div class="container">
+      <p>© <span id="current-year"></span> César Maat. Construyendo backend con propósito.</p>
+    </div>
+  </footer>
+
+  <script>
+    const menuToggle = document.querySelector('.menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const yearTarget = document.getElementById('current-year');
+
+    if (menuToggle && sidebar) {
+      const closeSidebar = () => {
+        document.body.classList.remove('sidebar-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Abrir menú');
+      };
+
+      menuToggle.addEventListener('click', () => {
+        const isOpen = document.body.classList.toggle('sidebar-open');
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+        menuToggle.setAttribute('aria-label', isOpen ? 'Cerrar menú' : 'Abrir menú');
+      });
+
+      sidebar.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => {
+          if (window.innerWidth <= 768) {
+            closeSidebar();
+          }
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        if (window.innerWidth > 768) {
+          return;
+        }
+
+        const isSidebarOpen = document.body.classList.contains('sidebar-open');
+        if (!isSidebarOpen) {
+          return;
+        }
+
+        if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+          closeSidebar();
+        }
+      });
+
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 768) {
+          closeSidebar();
+        }
+      });
+    }
+
+    if (yearTarget) {
+      yearTarget.textContent = new Date().getFullYear();
+    }
+  </script>
 </body>
 </html>
