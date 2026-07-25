@@ -4,9 +4,9 @@
  * Rellena estos valores con los datos de tu hosting / phpMyAdmin
  */
 define('DB_HOST',   'localhost');
-define('DB_NAME',   'tu_base_de_datos');   // <-- cambia esto
-define('DB_USER',   'tu_usuario');         // <-- cambia esto
-define('DB_PASS',   'tu_contraseña');      // <-- cambia esto
+define('DB_NAME',   'u205637003_main');
+define('DB_USER',   'u205637003_main');
+define('DB_PASS',   'itxLKGoX4a');
 define('DB_CHARSET','utf8mb4');
 
 /**
