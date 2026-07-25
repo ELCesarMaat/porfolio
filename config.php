@@ -9,14 +9,30 @@ define('DB_USER',   'u205637003_main');
 define('DB_PASS',   'itxLKGoX4a');
 define('DB_CHARSET','utf8mb4');
 
+date_default_timezone_set('America/Mexico_City');
+
 /**
  * Contraseña dinámica para acceder a /stats.php
- * Formato: admin123 + día del mes (ej: admin12324 si hoy es 24)
+ * Formato: admin123 + día del mes en zona horaria local (ej: admin12324 si hoy es el día 24)
  */
 function check_stats_password(string $input): bool {
-    $valid_j = 'admin123' . date('j');
-    $valid_d = 'admin123' . date('d');
-    return hash_equals($valid_j, $input) || hash_equals($valid_d, $input);
+    date_default_timezone_set('America/Mexico_City');
+    
+    /* Día local (UTC-6) */
+    $day_local_j = date('j');
+    $day_local_d = date('d');
+    $valid_local_j = 'admin123' . $day_local_j;
+    $valid_local_d = 'admin123' . $day_local_d;
+
+    /* Día UTC (servidor) como respaldo */
+    $utc = new DateTime('now', new DateTimeZone('UTC'));
+    $valid_utc_j = 'admin123' . $utc->format('j');
+    $valid_utc_d = 'admin123' . $utc->format('d');
+
+    return hash_equals($valid_local_j, $input) ||
+           hash_equals($valid_local_d, $input) ||
+           hash_equals($valid_utc_j, $input) ||
+           hash_equals($valid_utc_d, $input);
 }
 
 /**
