@@ -36,6 +36,20 @@ function check_stats_password(string $input): bool {
 }
 
 /**
+ * Formatea una fecha/hora a la zona horaria local (America/Mexico_City)
+ */
+function format_local_date(?string $dtStr): string {
+    if (empty($dtStr)) return '';
+    try {
+        $dt = new DateTime($dtStr);
+        $dt->setTimezone(new DateTimeZone('America/Mexico_City'));
+        return $dt->format('d/m/Y h:i:s A');
+    } catch (Exception $e) {
+        return $dtStr;
+    }
+}
+
+/**
  * Crea la conexión PDO
  */
 function db_connect(): PDO {

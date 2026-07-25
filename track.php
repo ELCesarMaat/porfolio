@@ -127,7 +127,7 @@ try {
 
     $stmt = $pdo->prepare("
         INSERT INTO page_visits (page, referrer, browser, os, ip_anon, country, city, country_code, isp, visited_at)
-        VALUES (:page, :referrer, :browser, :os, :ip_anon, :country, :city, :country_code, :isp, NOW())
+        VALUES (:page, :referrer, :browser, :os, :ip_anon, :country, :city, :country_code, :isp, :visited_at)
     ");
     $stmt->execute([
         ':page'         => $page,
@@ -139,6 +139,7 @@ try {
         ':city'         => $geo['city'],
         ':country_code' => $geo['country_code'],
         ':isp'          => $geo['isp'],
+        ':visited_at'   => date('Y-m-d H:i:s'),
     ]);
 
     echo json_encode(['ok' => true]);

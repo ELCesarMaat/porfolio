@@ -732,7 +732,7 @@ if (isset($_GET['logout'])) {
           ?>
           <tr>
             <td style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--muted)">
-              <?= htmlspecialchars($v['visited_at']) ?>
+              <?= htmlspecialchars(format_local_date($v['visited_at'])) ?>
             </td>
             <td>
               <div style="display:flex;align-items:center;gap:.4rem">
