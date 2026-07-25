@@ -84,9 +84,38 @@ function get_ip_geo(string $ip): array {
     return ['country' => 'Desconocido', 'city' => 'Desconocido', 'country_code' => '', 'isp' => ''];
 }
 
+/* ── Ignorar IPs de Hostinger y Locales ── */
+function is_ignored_ip(string $ip, string $isp = ''): bool {
+    $ip = trim($ip);
+    if (empty($ip)) return true;
+
+    /* Locales / Privadas */
+    if ($ip === '127.0.0.1' || $ip === '::1' ||
+        str_starts_with($ip, '192.168.') ||
+        str_starts_with($ip, '10.') ||
+        str_starts_with($ip, '172.16.') ||
+        str_starts_with($ip, '172.31.')) {
+        return true;
+    }
+
+    /* Hostinger (IPv6 2a02:4780: o ISP con Hostinger) */
+    if (str_starts_with($ip, '2a02:4780:') ||
+        str_contains(strtolower($isp), 'hostinger')) {
+        return true;
+    }
+
+    return false;
+}
+
 $browser = detect_browser($ua);
 $os      = detect_os($ua);
 $geo     = get_ip_geo($ip_full);
+
+/* No registrar si la IP es local o de Hostinger */
+if (is_ignored_ip($ip_full, $geo['isp'])) {
+    echo json_encode(['ok' => true, 'ignored' => true]);
+    exit;
+}
 
 /* ── Guardar en base de datos ── */
 try {

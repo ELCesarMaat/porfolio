@@ -109,23 +109,32 @@ if (!($_SESSION['stats_auth'] ?? false)) {
 try {
     $pdo = db_connect();
 
+    /* Filtro para excluir IPs de Hostinger y Locales */
+    $where = "WHERE ip_anon NOT LIKE '127.0.0.1'
+                AND ip_anon NOT LIKE '::1'
+                AND ip_anon NOT LIKE '192.168.%'
+                AND ip_anon NOT LIKE '10.%'
+                AND ip_anon NOT LIKE '2a02:4780:%'
+                AND isp NOT LIKE '%Hostinger%'
+                AND country NOT LIKE 'Localhost'";
+
     /* Total de visitas */
-    $total = (int) $pdo->query("SELECT COUNT(*) FROM page_visits")->fetchColumn();
+    $total = (int) $pdo->query("SELECT COUNT(*) FROM page_visits $where")->fetchColumn();
 
     /* Visitas hoy */
-    $today = (int) $pdo->query("SELECT COUNT(*) FROM page_visits WHERE DATE(visited_at) = CURDATE()")->fetchColumn();
+    $today = (int) $pdo->query("SELECT COUNT(*) FROM page_visits $where AND DATE(visited_at) = CURDATE()")->fetchColumn();
 
     /* Visitas esta semana */
-    $week = (int) $pdo->query("SELECT COUNT(*) FROM page_visits WHERE visited_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)")->fetchColumn();
+    $week = (int) $pdo->query("SELECT COUNT(*) FROM page_visits $where AND visited_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)")->fetchColumn();
 
     /* Visitas este mes */
-    $month = (int) $pdo->query("SELECT COUNT(*) FROM page_visits WHERE visited_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)")->fetchColumn();
+    $month = (int) $pdo->query("SELECT COUNT(*) FROM page_visits $where AND visited_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)")->fetchColumn();
 
     /* Visitas por día — últimos 30 días */
     $daily_stmt = $pdo->query("
         SELECT DATE(visited_at) AS day, COUNT(*) AS total
         FROM page_visits
-        WHERE visited_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+        $where AND visited_at >= DATE_SUB(NOW(), INTERVAL 30 DAY)
         GROUP BY DATE(visited_at)
         ORDER BY day ASC
     ");
@@ -137,6 +146,7 @@ try {
             CASE WHEN referrer = '' THEN 'Directo' ELSE referrer END AS ref,
             COUNT(*) AS total
         FROM page_visits
+        $where
         GROUP BY ref
         ORDER BY total DESC
         LIMIT 8
@@ -147,6 +157,7 @@ try {
     $browser_stmt = $pdo->query("
         SELECT browser, COUNT(*) AS total
         FROM page_visits
+        $where
         GROUP BY browser
         ORDER BY total DESC
     ");
@@ -156,6 +167,7 @@ try {
     $os_stmt = $pdo->query("
         SELECT os, COUNT(*) AS total
         FROM page_visits
+        $where
         GROUP BY os
         ORDER BY total DESC
     ");
@@ -168,6 +180,7 @@ try {
             country_code,
             COUNT(*) AS total
         FROM page_visits
+        $where
         GROUP BY country, country_code
         ORDER BY total DESC
         LIMIT 8
@@ -181,6 +194,7 @@ try {
             country,
             COUNT(*) AS total
         FROM page_visits
+        $where
         GROUP BY city, country
         ORDER BY total DESC
         LIMIT 8
@@ -191,6 +205,7 @@ try {
     $recent_stmt = $pdo->query("
         SELECT page, browser, os, referrer, ip_anon, country, city, country_code, isp, visited_at
         FROM page_visits
+        $where
         ORDER BY visited_at DESC
         LIMIT 20
     ");
