@@ -444,10 +444,7 @@ $ref_data   = json_encode(array_column($referrers, 'total'));
     .bar-meta span:first-child {
       color: var(--text);
       font-weight: 500;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      max-width: 75%;
+      word-break: break-word;
     }
 
     .bar-track {
@@ -477,7 +474,7 @@ $ref_data   = json_encode(array_column($referrers, 'total'));
 
     thead th {
       text-align: left;
-      padding: .6rem .85rem;
+      padding: .65rem .9rem;
       color: var(--muted);
       font-size: .72rem;
       font-weight: 600;
@@ -497,12 +494,9 @@ $ref_data   = json_encode(array_column($referrers, 'total'));
     tbody tr:last-child { border-bottom: none; }
 
     td {
-      padding: .65rem .85rem;
+      padding: .65rem .9rem;
       color: rgba(232,238,255,.8);
       white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 200px;
     }
 
     .badge {
@@ -698,7 +692,6 @@ if (isset($_GET['logout'])) {
         foreach ($referrers as $r):
           $pct = round(($r['total'] / $max_ref) * 100);
           $label = htmlspecialchars($r['ref']);
-          if (strlen($label) > 60) $label = substr($label, 0, 57) . '…';
       ?>
       <div class="bar-item">
         <div class="bar-meta">
@@ -754,8 +747,8 @@ if (isset($_GET['logout'])) {
             <td style="font-family:'JetBrains Mono',monospace;font-size:.78rem">
               <?= htmlspecialchars($v['ip_anon']) ?>
             </td>
-            <td style="font-size:.78rem;color:var(--muted)" title="<?= htmlspecialchars($isp) ?>">
-              <?= htmlspecialchars(strlen($isp) > 28 ? substr($isp, 0, 25) . '…' : $isp) ?>
+            <td style="font-size:.78rem;color:var(--muted)">
+              <?= htmlspecialchars($isp) ?>
             </td>
             <td>
               <span class="badge browser"><?= htmlspecialchars($v['browser']) ?></span>
