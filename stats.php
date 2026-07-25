@@ -648,7 +648,7 @@ if (isset($_GET['logout'])) {
 
   <p class="stats-footer">
     IPs anonimizadas · Solo para uso interno ·
-    <a href="/">← Volver al portafolio</a>
+    <a href="./">← Volver al portafolio</a>
   </p>
 </div>
 

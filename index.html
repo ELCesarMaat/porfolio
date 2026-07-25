@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
@@ -269,7 +269,7 @@
         <div class="portfolio-grid">
 
           <article class="project-card reveal">
-            <div class="project-image" style="background-image: url('/images/gastapplogo.png');" role="img" aria-label="Gastapp logo"></div>
+            <div class="project-image" style="background-image: url('images/gastapplogo.png');" role="img" aria-label="Gastapp logo"></div>
             <div class="project-content">
               <div class="project-type"><i class="fas fa-mobile-screen" aria-hidden="true"></i> Aplicación Móvil</div>
               <h3>Gastapp</h3>
@@ -458,7 +458,7 @@
           page:     window.location.pathname || '/',
           referrer: document.referrer || ''
         });
-        fetch('/track.php?' + params.toString(), { method: 'GET', keepalive: true })
+        fetch('track.php?' + params.toString(), { method: 'GET', keepalive: true })
           .catch(function () { /* silencioso */ });
       } catch (_) { /* silencioso */ }
     })();
