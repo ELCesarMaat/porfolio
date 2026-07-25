@@ -451,6 +451,18 @@
   </footer>
 
   <script>
+    /* ─── Visit Tracker ─── */
+    (function () {
+      try {
+        const params = new URLSearchParams({
+          page:     window.location.pathname || '/',
+          referrer: document.referrer || ''
+        });
+        fetch('/track.php?' + params.toString(), { method: 'GET', keepalive: true })
+          .catch(function () { /* silencioso */ });
+      } catch (_) { /* silencioso */ }
+    })();
+
     /* ──────────────────────────────────────────
        YEAR
     ────────────────────────────────────────── */
