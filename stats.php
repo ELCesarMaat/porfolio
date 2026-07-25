@@ -6,15 +6,34 @@
 
 require_once __DIR__ . '/config.php';
 
-/* ── Autenticación simple por sesión ── */
+/* ── Autenticación con protección anti-fuerza bruta ── */
 session_start();
 
+if (!isset($_SESSION['failed_attempts'])) {
+    $_SESSION['failed_attempts'] = 0;
+}
+
 $error = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (hash_equals(STATS_PASSWORD, $_POST['password'] ?? '')) {
-        $_SESSION['stats_auth'] = true;
-    } else {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['password'])) {
+    $submitted = $_POST['password'] ?? '';
+    
+    /* Si ya alcanzó los 5 intentos fallidos */
+    if ($_SESSION['failed_attempts'] >= 5) {
+        /* Delay de 5 segundos + login falso (ya no valida nada) */
+        sleep(5);
+        $_SESSION['failed_attempts']++;
         $error = 'Contraseña incorrecta.';
+    } else {
+        if (check_stats_password($submitted)) {
+            $_SESSION['stats_auth'] = true;
+            $_SESSION['failed_attempts'] = 0;
+        } else {
+            $_SESSION['failed_attempts']++;
+            if ($_SESSION['failed_attempts'] >= 5) {
+                sleep(5);
+            }
+            $error = 'Contraseña incorrecta.';
+        }
     }
 }
 

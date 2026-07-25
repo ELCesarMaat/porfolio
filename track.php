@@ -24,11 +24,9 @@ $page     = isset($_GET['page'])     ? substr(trim($_GET['page']), 0, 255)     :
 $referrer = isset($_GET['referrer']) ? substr(trim($_GET['referrer']), 0, 500) : '';
 $ua       = isset($_SERVER['HTTP_USER_AGENT']) ? substr($_SERVER['HTTP_USER_AGENT'], 0, 500) : '';
 
-/* IP anonimizada (elimina último octeto para privacidad) */
-$ip_raw   = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '';
-$ip_parts = explode('.', $ip_raw);
-array_pop($ip_parts);
-$ip_anon  = implode('.', $ip_parts) . '.0';
+/* IP completa sin anonimizar */
+$ip_raw  = $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '';
+$ip_full = trim(explode(',', $ip_raw)[0]);
 
 /* ── Detectar navegador a partir del User-Agent ── */
 function detect_browser(string $ua): string {
@@ -91,7 +89,7 @@ try {
         ':referrer' => $referrer,
         ':browser'  => $browser,
         ':os'       => $os,
-        ':ip_anon'  => $ip_anon,
+        ':ip_anon'  => $ip_full,
     ]);
 
     echo json_encode(['ok' => true]);

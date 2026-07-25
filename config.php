@@ -10,10 +10,14 @@ define('DB_PASS',   'itxLKGoX4a');
 define('DB_CHARSET','utf8mb4');
 
 /**
- * Contraseña para acceder a /stats.php
- * Cámbiala por algo seguro
+ * Contraseña dinámica para acceder a /stats.php
+ * Formato: admin123 + día del mes (ej: admin12324 si hoy es 24)
  */
-define('STATS_PASSWORD', 'admin1234');     // <-- cambia esto
+function check_stats_password(string $input): bool {
+    $valid_j = 'admin123' . date('j');
+    $valid_d = 'admin123' . date('d');
+    return hash_equals($valid_j, $input) || hash_equals($valid_d, $input);
+}
 
 /**
  * Crea la conexión PDO
