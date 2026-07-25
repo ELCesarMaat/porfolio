@@ -161,9 +161,35 @@ try {
     ");
     $oses = $os_stmt->fetchAll();
 
+    /* Top Países */
+    $country_stmt = $pdo->query("
+        SELECT
+            CASE WHEN country = '' THEN 'Desconocido' ELSE country END AS country,
+            country_code,
+            COUNT(*) AS total
+        FROM page_visits
+        GROUP BY country, country_code
+        ORDER BY total DESC
+        LIMIT 8
+    ");
+    $countries = $country_stmt->fetchAll();
+
+    /* Top Ciudades */
+    $city_stmt = $pdo->query("
+        SELECT
+            CASE WHEN city = '' THEN 'Desconocido' ELSE city END AS city,
+            country,
+            COUNT(*) AS total
+        FROM page_visits
+        GROUP BY city, country
+        ORDER BY total DESC
+        LIMIT 8
+    ");
+    $cities = $city_stmt->fetchAll();
+
     /* Últimas 20 visitas */
     $recent_stmt = $pdo->query("
-        SELECT page, browser, os, referrer, ip_anon, visited_at
+        SELECT page, browser, os, referrer, ip_anon, country, city, country_code, isp, visited_at
         FROM page_visits
         ORDER BY visited_at DESC
         LIMIT 20
@@ -603,6 +629,66 @@ if (isset($_GET['logout'])) {
     </div>
   </div>
 
+  <!-- Top Países y Top Ciudades -->
+  <div class="chart-grid-2" style="margin-bottom:1.25rem">
+    <div class="card">
+      <p class="card-title"><i class="fas fa-flag"></i>Top Países</p>
+      <div class="bar-list">
+        <?php
+          $max_c = $countries[0]['total'] ?? 1;
+          foreach ($countries as $c):
+            $pct = round(($c['total'] / $max_c) * 100);
+            $code = strtolower(trim($c['country_code']));
+            $hasFlag = (strlen($code) === 2);
+        ?>
+        <div class="bar-item">
+          <div class="bar-meta">
+            <span style="display:inline-flex;align-items:center;gap:.4rem">
+              <?php if ($hasFlag): ?>
+                <img src="https://flagcdn.com/20x15/<?= htmlspecialchars($code) ?>.png" width="20" height="15" alt="<?= htmlspecialchars($code) ?>" style="border-radius:2px">
+              <?php else: ?>
+                <i class="fas fa-globe" style="color:var(--muted)"></i>
+              <?php endif; ?>
+              <?= htmlspecialchars($c['country']) ?>
+            </span>
+            <span><?= number_format($c['total']) ?> visitas</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:<?= $pct ?>%"></div>
+          </div>
+        </div>
+        <?php endforeach; ?>
+        <?php if (empty($countries)): ?>
+          <p style="color:var(--muted);font-size:.85rem;margin:0">Sin datos de países.</p>
+        <?php endif; ?>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title"><i class="fas fa-city"></i>Top Ciudades</p>
+      <div class="bar-list">
+        <?php
+          $max_city = $cities[0]['total'] ?? 1;
+          foreach ($cities as $ci):
+            $pct = round(($ci['total'] / $max_city) * 100);
+        ?>
+        <div class="bar-item">
+          <div class="bar-meta">
+            <span><i class="fas fa-location-dot" style="color:var(--secondary);margin-right:.3rem"></i><?= htmlspecialchars($ci['city']) ?> <small style="color:var(--muted)">(<?= htmlspecialchars($ci['country']) ?>)</small></span>
+            <span><?= number_format($ci['total']) ?> visitas</span>
+          </div>
+          <div class="bar-track">
+            <div class="bar-fill" style="width:<?= $pct ?>%"></div>
+          </div>
+        </div>
+        <?php endforeach; ?>
+        <?php if (empty($cities)): ?>
+          <p style="color:var(--muted);font-size:.85rem;margin:0">Sin datos de ciudades.</p>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
+
   <!-- Top referrers -->
   <div class="card" style="margin-bottom:1.25rem">
     <p class="card-title"><i class="fas fa-link"></i>Fuentes de tráfico (Top <?= count($referrers) ?>)</p>
@@ -635,30 +721,54 @@ if (isset($_GET['logout'])) {
         <thead>
           <tr>
             <th>Fecha y hora</th>
+            <th>Ubicación</th>
+            <th>IP Completa</th>
+            <th>Proveedor (ISP)</th>
+            <th>Navegador / OS</th>
             <th>Página</th>
-            <th>Navegador</th>
-            <th>OS</th>
-            <th>IP (anon.)</th>
             <th>Referrer</th>
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($recent as $v): ?>
+          <?php foreach ($recent as $v):
+              $code = strtolower(trim($v['country_code'] ?? ''));
+              $hasFlag = (strlen($code) === 2);
+              $country = $v['country'] ?: 'Desconocido';
+              $city    = $v['city']    ?: 'Desconocido';
+              $isp     = $v['isp']     ?: 'Desconocido';
+          ?>
           <tr>
             <td style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--muted)">
               <?= htmlspecialchars($v['visited_at']) ?>
             </td>
+            <td>
+              <div style="display:flex;align-items:center;gap:.4rem">
+                <?php if ($hasFlag): ?>
+                  <img src="https://flagcdn.com/20x15/<?= htmlspecialchars($code) ?>.png" width="20" height="15" alt="<?= htmlspecialchars($code) ?>" style="border-radius:2px" title="<?= htmlspecialchars($country) ?>">
+                <?php else: ?>
+                  <i class="fas fa-globe" style="color:var(--muted)"></i>
+                <?php endif; ?>
+                <span><strong><?= htmlspecialchars($country) ?></strong>, <?= htmlspecialchars($city) ?></span>
+              </div>
+            </td>
+            <td style="font-family:'JetBrains Mono',monospace;font-size:.78rem">
+              <?= htmlspecialchars($v['ip_anon']) ?>
+            </td>
+            <td style="font-size:.78rem;color:var(--muted)" title="<?= htmlspecialchars($isp) ?>">
+              <?= htmlspecialchars(strlen($isp) > 28 ? substr($isp, 0, 25) . '…' : $isp) ?>
+            </td>
+            <td>
+              <span class="badge browser"><?= htmlspecialchars($v['browser']) ?></span>
+              <span class="badge os"><?= htmlspecialchars($v['os']) ?></span>
+            </td>
             <td><?= htmlspecialchars($v['page']) ?></td>
-            <td><span class="badge browser"><?= htmlspecialchars($v['browser']) ?></span></td>
-            <td><span class="badge os"><?= htmlspecialchars($v['os']) ?></span></td>
-            <td style="font-family:'JetBrains Mono',monospace;font-size:.75rem"><?= htmlspecialchars($v['ip_anon']) ?></td>
             <td style="color:var(--muted)">
               <?= $v['referrer'] ? htmlspecialchars($v['referrer']) : '<em>Directo</em>' ?>
             </td>
           </tr>
           <?php endforeach; ?>
           <?php if (empty($recent)): ?>
-          <tr><td colspan="6" style="text-align:center;color:var(--muted);padding:2rem">Sin visitas registradas aún.</td></tr>
+          <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem">Sin visitas registradas aún.</td></tr>
           <?php endif; ?>
         </tbody>
       </table>
@@ -666,7 +776,7 @@ if (isset($_GET['logout'])) {
   </div>
 
   <p class="stats-footer">
-    IPs anonimizadas · Solo para uso interno ·
+    Geolocalización de IPs automática · Uso interno exclusivo ·
     <a href="./">← Volver al portafolio</a>
   </p>
 </div>
